@@ -1,42 +1,89 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    let result;
-    
-    return result;
+    if (['kg','lbs','gal','l','mi','km'].indexOf(input.toLowerCase()) !== -1){
+      return 1;
+    }
+    return parseFloat(input);
   };
   
   this.getUnit = function(input) {
-    let result;
-    
-    return result;
+    if (['kg','lbs','gal','l','mi','km'].indexOf(input.toLowerCase()) !== -1){
+      if (input=='L' || input=='l'){
+        return input.toUpperCase();
+      }
+      return input.toLowerCase();
+    }
+    return input.substr((parseFloat(input)+'').length)=='l' ? 'L' : (input.substr((parseFloat(input)+'').length)).toLowerCase();
   };
   
   this.getReturnUnit = function(initUnit) {
-    let result;
-    
-    return result;
+    switch (initUnit.toLowerCase()){
+      case 'kg':
+        return 'lbs';
+      case 'lbs':
+        return 'kg';
+      case 'gal':
+        return 'L';
+      case 'l':
+        return 'gal';
+      case 'km':
+        return 'mi';
+      case 'mi':
+        return 'km';
+      default:
+        return false;
+    }
   };
 
   this.spellOutUnit = function(unit) {
-    let result;
-    
-    return result;
+    switch(unit){
+      case 'kg':
+        return 'kilograms';
+      case 'gal':
+        return 'gallons';
+      case 'lbs':
+        return 'pounds';
+      case 'L':
+        return 'liters';
+      case 'km':
+        return 'kilometers';
+      case 'mi':
+        return 'miles';
+    }
   };
   
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    let result;
-    
-    return result;
+    switch (initUnit){
+      case 'kg':
+        return (initNum / lbsToKg).toFixed(5);
+      case 'gal':
+        return (initNum * galToL).toFixed(5);
+      case 'lbs':
+        return (initNum * lbsToKg).toFixed(5);
+      case 'L':
+        return (initNum / galToL).toFixed(5);
+      case 'mi':
+        return (initNum * miToKm).toFixed(5);
+      case 'km':
+        return (initNum / miToKm).toFixed(5);
+    }
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    let result;
-    
-    return result;
+    if (this.getReturnUnit(initUnit)){
+      return {
+        initNum: initNum,
+        initUnit: initUnit,
+        returnNum: returnNum,
+        returnUnit: returnUnit,
+        string: initNum+' '+this.spellOutUnit(initUnit)+' converts to '+returnNum+' '+this.spellOutUnit(returnUnit)
+      };
+    }
+    return 'invalid Unit';
   };
   
 }
